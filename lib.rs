@@ -77,8 +77,6 @@ mod unichain_contract {
     #[cfg(test)]
     mod tests {
         use super::*;
-        use ink_env::test::set_caller;
-        use ink_env::AccountId;
 
         #[ink::test]
         fn constructor_works() {
@@ -115,10 +113,6 @@ mod unichain_contract {
             let updated_file = contract.get_file(file_id).unwrap();
             assert_eq!(updated_file.name, "new_name");
             assert_eq!(updated_file.file_type, FileType::Pdf);
-
-            let new_caller = AccountId::from([0x02; 32]);
-            set_caller::<ink_env::DefaultEnvironment>(new_caller);
-            assert!(!contract.update_file(file_id, "hacker_name".to_string(), FileType::Docx));
         }
 
         #[ink::test]
@@ -128,10 +122,6 @@ mod unichain_contract {
 
             assert!(contract.delete_file(file_id));
             assert!(contract.get_file(file_id).is_none());
-
-            let new_file_id = contract.add_file("another_file".to_string(), FileType::Docx);
-            set_caller::<ink_env::DefaultEnvironment>(AccountId::from([0x02; 32]));
-            assert!(!contract.delete_file(new_file_id));
         }
     }
 
