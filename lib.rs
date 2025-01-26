@@ -29,6 +29,12 @@ mod unichain_contract {
         next_file_id: u64,
     }
 
+    impl Default for FileManagerContract {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+
     impl FileManagerContract {
         #[ink(constructor)]
         pub fn new() -> Self {
@@ -38,38 +44,47 @@ mod unichain_contract {
             }
         }
 
+        fn increment_file_id(&mut self) -> u64 {
+            let next_id = self.next_file_id;
+            self.next_file_id = next_id
+                .checked_add(1)
+                .expect("Overflow ao incrementar next_file_id");
+            next_id
+        }
+
         #[ink(message)]
         pub fn add_file(&mut self, name: String, file_type: FileType) -> u64 {
             let caller = self.env().caller();
-            let file_id = self.next_file_id;
-            let file = File {id: file_id, name, file_type, owner: caller};
-            self.files.insert(&file_id, &file);
-            self.next_file_id += 1;
+            let file_id = self.increment_file_id();
+            let file = File { id: file_id, name, file_type, owner: caller };
+
+            self.files.insert(file_id, &file);
+
             file_id
         }
 
         #[ink(message)]
         pub fn get_file(&self, file_id: u64) -> Option<File> {
-            self.files.get(&file_id)
+            self.files.get(file_id)
         }
 
         #[ink(message)]
         pub fn update_file(&mut self, file_id: u64, new_name: String, new_file_type: FileType) -> bool {
-            self.files.get(&file_id)
+            self.files.get(file_id)
                 .filter(|file| self.env().caller() == file.owner)
                 .map(|mut file| {
                     file.name = new_name;
                     file.file_type = new_file_type;
-                    self.files.insert(&file_id, &file);
+                    self.files.insert(file_id, &file);
                     true })
                 .unwrap_or(false)
         }
 
         #[ink(message)]
         pub fn delete_file(&mut self, file_id: u64) -> bool {
-            self.files.get(&file_id)
+            self.files.get(file_id)
                 .filter(|file| self.env().caller() == file.owner)
-                .map(|_| { self.files.remove(&file_id); true })
+                .map(|_| { self.files.remove(file_id); true })
                 .unwrap_or(false)
         }
     }
