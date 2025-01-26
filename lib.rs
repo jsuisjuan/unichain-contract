@@ -2,12 +2,13 @@
 
 #[ink::contract]
 mod unichain_contract {
-    use ink::{prelude::string::String, storage::traits::StorageLayout};
+    use ink::prelude::string::String;
     use ink::storage::Mapping;
-    use parity_scale_codec::{Decode, Encode};
-    use scale_info::TypeInfo;
-
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, Encode, Decode, Default, TypeInfo, StorageLayout)]
+    use ink::storage::traits::StorageLayout;
+   
+    #[derive(Debug, PartialEq, Default)]
+    #[ink::scale_derive(Encode, Decode, TypeInfo)]
+    #[cfg_attr(feature = "std", derive(StorageLayout))]
     pub enum FileType {
         Pdf,
         Docx,
@@ -15,7 +16,9 @@ mod unichain_contract {
         Unknown,
     }
 
-    #[derive(Debug, Clone, PartialEq, Eq, Encode, Decode, TypeInfo, StorageLayout)]
+    #[derive(Debug, PartialEq)]
+    #[ink::scale_derive(Encode, Decode, TypeInfo)]
+    #[cfg_attr(feature = "std", derive(StorageLayout))]
     pub struct File {
         id: u64,
         name: String,
