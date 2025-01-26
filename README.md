@@ -35,13 +35,13 @@ O contrato vem com uma suite de testes escrita em Rust para garantir que as func
 - **Excluir Arquivo**: Verifica se a exclusão de um arquivo é realizada corretamente e se ele é removido do mapeamento.
 
 ##### rodar get_file()
-cargo contract call --contract 5FA4tbve4vBkCsYuRzekX1NbMALYXAVUL9ebvceYF5r2jRsb --message get_file --args 0 --suri //Bob --skip-dry-run --output-json
+cargo contract call --contract 5DbLTzReAhQ3EZwJSgGVLNDg1e99CqH6F23w6isqKQqmEe8e --message get_file --args 0 --suri //Bob --skip-dry-run --output-json
 
 ##### rodar add_file()
-cargo contract call --contract 5FA4tbve4vBkCsYuRzekX1NbMALYXAVUL9ebvceYF5r2jRsb --message add_file --args "\"teste-file\"" Pdf --suri //Bob --skip-confirm --execute
+cargo contract call --contract 5DbLTzReAhQ3EZwJSgGVLNDg1e99CqH6F23w6isqKQqmEe8e --message add_file --args "\"teste-file\"" 3500 "\"Little description about the file.\"" Pdf --suri //Bob --skip-confirm --execute
 
 ##### rodar update_file()
-cargo contract call --contract 5FA4tbve4vBkCsYuRzekX1NbMALYXAVUL9ebvceYF5r2jRsb --message update_file --args 0 "\"new-file\"" Docx --suri //Bob --skip-confirm --execute
+cargo contract call --contract 5DbLTzReAhQ3EZwJSgGVLNDg1e99CqH6F23w6isqKQqmEe8e --message update_file --args 0 "\"new-file\"" 1000 "\"New description about the file.\"" Docx --suri //Bob --skip-confirm --execute
 
 ##### rodar delete_file()
-cargo contract call --contract 5FA4tbve4vBkCsYuRzekX1NbMALYXAVUL9ebvceYF5r2jRsb --message delete_file --args 1 --suri //Bob --skip-confirm --execute
+cargo contract call --contract 5DbLTzReAhQ3EZwJSgGVLNDg1e99CqH6F23w6isqKQqmEe8e --message delete_file --args 1 --suri //Bob --skip-confirm --execute
