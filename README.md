@@ -34,6 +34,12 @@ O contrato vem com uma suite de testes escrita em Rust para garantir que as func
 - **Atualizar Arquivo**: Testa se um arquivo pode ser atualizado corretamente.
 - **Excluir Arquivo**: Verifica se a exclusão de um arquivo é realizada corretamente e se ele é removido do mapeamento.
 
+##### buildar contrato
+cargo +nightly contract build
+
+##### subir o contrato para o n[o local
+cargo contract instantiate --constructor default --suri //Alice --skip-confirm --execute
+
 ##### rodar get_file()
 cargo contract call --contract 5DbLTzReAhQ3EZwJSgGVLNDg1e99CqH6F23w6isqKQqmEe8e --message get_file --args 0 --suri //Bob --skip-dry-run --output-json
 
